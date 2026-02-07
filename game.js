@@ -253,6 +253,7 @@ addEventListener("mouseup",()=>{mouseDown=false;});
 const touchBtns={left:false,right:false,jump:false,shoot:false};
 let isTouch=false;
 let mouseDown=false;
+const joystickState={active:false,originX:0,originY:0,radius:42,dx:0,dy:0,pointerId:null};
 
 function setupTouchControls(){
   const isMobile='ontouchstart'in window||window.innerWidth<768;
@@ -261,11 +262,14 @@ function setupTouchControls(){
   
   if(isMobile){
     controls.classList.add("active");
+    controls.classList.add("joystick-on");
     
     const leftBtn=document.getElementById("leftBtn");
     const rightBtn=document.getElementById("rightBtn");
     const jumpBtn=document.getElementById("jumpBtn");
     const shootBtn=document.getElementById("shootBtn");
+    const joystick=document.getElementById("joystick");
+    const stick=joystick?joystick.querySelector(".joystick-stick"):null;
     
     leftBtn.addEventListener("touchstart",e=>{e.preventDefault();touchBtns.left=true});
     leftBtn.addEventListener("touchend",e=>{e.preventDefault();touchBtns.left=false});
@@ -283,6 +287,52 @@ function setupTouchControls(){
       shootBtn.addEventListener("touchstart",e=>{e.preventDefault();touchBtns.shoot=true});
       shootBtn.addEventListener("touchend",e=>{e.preventDefault();touchBtns.shoot=false});
       shootBtn.addEventListener("touchcancel",e=>{e.preventDefault();touchBtns.shoot=false});
+    }
+
+    if(joystick&&stick){
+      const setStick=(dx,dy)=>{
+        stick.style.transform=`translate(${dx}px,${dy}px)`;
+      };
+      const updateDirections=(dx)=>{
+        const threshold=joystickState.radius*0.25;
+        touchBtns.left=dx<-threshold;
+        touchBtns.right=dx>threshold;
+      };
+
+      joystick.addEventListener("pointerdown",e=>{
+        e.preventDefault();
+        const rect=joystick.getBoundingClientRect();
+        joystickState.active=true;
+        joystickState.pointerId=e.pointerId;
+        joystickState.originX=rect.left+rect.width/2;
+        joystickState.originY=rect.top+rect.height/2;
+        joystickState.radius=Math.min(rect.width,rect.height)*0.35;
+        joystick.setPointerCapture(e.pointerId);
+      });
+
+      joystick.addEventListener("pointermove",e=>{
+        if(!joystickState.active||e.pointerId!==joystickState.pointerId)return;
+        const dx=e.clientX-joystickState.originX;
+        const dy=e.clientY-joystickState.originY;
+        const dist=Math.hypot(dx,dy);
+        const max=joystickState.radius;
+        const scale=dist>max?max/dist:1;
+        const clampedX=dx*scale;
+        const clampedY=dy*scale;
+        setStick(clampedX,clampedY);
+        updateDirections(clampedX);
+      });
+
+      const resetStick=()=>{
+        joystickState.active=false;
+        joystickState.pointerId=null;
+        setStick(0,0);
+        touchBtns.left=false;
+        touchBtns.right=false;
+      };
+      joystick.addEventListener("pointerup",resetStick);
+      joystick.addEventListener("pointercancel",resetStick);
+      joystick.addEventListener("pointerleave",resetStick);
     }
   }
   updateTutorialHint();
@@ -779,7 +829,7 @@ function refreshTutorialVisibility(){
 function updateTutorialHint(){
   if(!tutorialHintEl)return;
   tutorialHintEl.textContent=isTouch?
-    "Use the on-screen buttons to move and jump.":
+    "Use the joystick to move and the jump button to leap.":
     "Pause anytime with P. Q/Z also work on AZERTY.";
 }
 

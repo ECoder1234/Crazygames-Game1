@@ -70,6 +70,11 @@ canvas{display:block;margin:0 auto;background:#000}
 .small{text-align:center;font-size:clamp(11px,2vw,13px);opacity:.8;margin:10px 0;line-height:1.4}
 .controls{position:fixed;bottom:clamp(10px,2vh,20px);right:clamp(10px,2vw,20px);z-index:4;display:none;gap:clamp(8px,1.5vw,12px)}
 .controls.active{display:flex}
+.controls.joystick-on #leftBtn,
+.controls.joystick-on #rightBtn{display:none}
+.joystick{position:relative;width:clamp(90px,18vw,120px);height:clamp(90px,18vw,120px);display:flex;align-items:center;justify-content:center}
+.joystick-base{position:absolute;inset:0;border-radius:50%;background:rgba(44,123,229,0.25);border:2px solid rgba(255,255,255,0.4);box-shadow:0 10px 24px rgba(0,0,0,0.35)}
+.joystick-stick{width:clamp(38px,8vw,52px);height:clamp(38px,8vw,52px);border-radius:50%;background:rgba(44,123,229,0.85);border:2px solid #fff;box-shadow:0 6px 16px rgba(0,0,0,0.35);transform:translate(0,0);transition:transform .08s ease-out}
 .touch-btn{width:clamp(50px,10vw,70px);height:clamp(50px,10vw,70px);border-radius:50%;background:rgba(44,123,229,.8);border:2px solid #fff;font-size:clamp(18px,4vw,28px);color:#fff;display:flex;align-items:center;justify-content:center;user-select:none;touch-action:none;box-shadow:0 4px 10px rgba(0,0,0,0.4)}
 .touch-btn:active{background:rgba(44,123,229,1);transform:scale(0.95)}
 #shootBtn{display:none}
