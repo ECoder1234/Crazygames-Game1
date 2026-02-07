@@ -1,0 +1,85 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1.0">
+<title>Quantum Leap: Infinity</title>
+
+<!--
+CRAZYGAMES METADATA
+Title: Quantum Leap: Infinity
+Genre: Platformer / Skill / Racing
+Orientation: Landscape
+Controls: Keyboard + Touch
+-->
+
+<link rel="stylesheet" href="styles.css">
+<script src="https://sdk.crazygames.com/crazygames-sdk-v3.js"></script>
+</head>
+<body>
+
+<div id="loading" class="loading active" aria-live="polite">
+  <div class="loading-card">
+    <img class="loading-logo" src="Default_Text_Dark.png" alt="CrazyGames">
+    <div class="loading-title">Quantum Leap: Infinity</div>
+    <div class="loading-engine">Made in HTML5</div>
+    <div class="loading-dev">Game developed by Ervin</div>
+    <div class="loading-subtitle" id="loadingText">Loading...</div>
+    <div class="loading-bar">
+      <div class="loading-fill" id="loadingBar"></div>
+    </div>
+  </div>
+</div>
+
+<canvas id="c"></canvas>
+<div id="hud"></div>
+<div id="gameUI">
+  <button class="game-btn" id="pauseBtn">Pause (P)</button>
+  <button class="game-btn" id="shopBtnInGame">Shop</button>
+  <button class="game-btn danger" id="quitBtn">Exit</button>
+</div>
+<div id="ui"></div>
+<div id="modal" class="modal-root"></div>
+<div id="toast" class="toast"></div>
+<div id="tutorial" class="tutorial">
+  <div class="tutorial-card">
+    <div class="tutorial-top">
+      <div class="tutorial-title">Quick Start</div>
+      <button class="tutorial-skip" id="tutorialSkip">Skip</button>
+    </div>
+    <div class="tutorial-steps">
+      <div class="tutorial-step" id="tStepMove">
+        <span class="step-badge">1</span>
+        <span class="step-text">Move</span>
+        <span class="keycap">A</span>
+        <span class="keycap">D</span>
+        <span class="keycap">&larr;</span>
+        <span class="keycap">&rarr;</span>
+      </div>
+      <div class="tutorial-step" id="tStepJump">
+        <span class="step-badge">2</span>
+        <span class="step-text">Jump</span>
+        <span class="keycap keycap-wide">Space</span>
+        <span class="keycap">&uarr;</span>
+        <span class="keycap">W</span>
+        <span class="keycap">Z</span>
+      </div>
+      <div class="tutorial-step" id="tStepGoal">
+        <span class="step-badge">3</span>
+        <span class="step-text">Reach the portal</span>
+        <span class="portal-dot" aria-hidden="true"></span>
+      </div>
+    </div>
+    <div class="tutorial-hint" id="tutorialHint"></div>
+  </div>
+</div>
+<div id="controls" class="controls">
+  <button class="touch-btn" id="leftBtn">&larr;</button>
+  <button class="touch-btn" id="jumpBtn">&uarr;</button>
+  <button class="touch-btn" id="rightBtn">&rarr;</button>
+  <button class="touch-btn" id="shootBtn">Shoot</button>
+</div>
+
+<script src="game.js"></script>
+</body>
+</html>
